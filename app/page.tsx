@@ -10,7 +10,7 @@ export default function Home() {
       <Hero />
       <main className='flex flex-col m-4 lg:mx-40'>
         <TravelForm />
-        <Showcase />
+        <Showcase heading='Los más populares' />
       </main>
     </div>
   );
