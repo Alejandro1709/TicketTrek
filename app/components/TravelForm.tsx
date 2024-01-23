@@ -4,7 +4,7 @@ import Input from './Input';
 
 function TravelForm() {
   return (
-    <div className='flex flex-col gap-2 lg:flex-row lg:absolute lg:shadow lg:z-20 lg:top-[22%] lg:w-fit lg:self-center p-3 bg-white mb-6 border lg:rounded'>
+    <div className='flex flex-col gap-2 p-3 bg-white mb-6 border rounded'>
       <Input
         label='From:'
         name='departing'
