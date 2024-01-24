@@ -23,7 +23,7 @@ function TravelForm() {
       <Input label='To Date:' type='date' name='toDate' id='toDate' />
 
       <button className='bg-[#7261A3] p-3 text-white font-medium rounded disabled:bg-[#7261A3]/80 hover:bg-[#69579C] active:bg-[#5B498F]'>
-        Search Tickets
+        Buscar
       </button>
     </div>
   );
