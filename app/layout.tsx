@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '../components/theme-provider';
+import { cn } from '@/lib/utils';
+import Navbar from '@/components/navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,14 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={cn('flex flex-col min-h-screen', inter.className)}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Navbar />
+          <main className='flex-1 mx-8 md:mx-96'>{children}</main>
         </ThemeProvider>
       </body>
     </html>
