@@ -8,22 +8,24 @@ import {
   CardTitle,
 } from '../ui/card';
 import { Button } from '../ui/button';
+import type IData from '@/app/types/destination';
 
-function DestinationCard() {
+function DestinationCard({ destination }: { destination: IData }) {
   return (
     <Card>
       <CardHeader>
         <AspectRatio ratio={16 / 9}>
           <Image
             src='https://denomades.s3.us-west-2.amazonaws.com/blog/wp-content/uploads/2020/09/06164027/laguna-69-cuesta-serena-boutique-hotel-1024x597.jpg'
-            alt='Image'
+            alt={destination.name}
             className='rounded-md object-cover'
             fill
+            priority
           />
         </AspectRatio>
       </CardHeader>
       <CardContent>
-        <CardTitle className='text-2xl'>Huaraz</CardTitle>
+        <CardTitle className='text-2xl'>{destination.name}</CardTitle>
       </CardContent>
       <CardFooter>
         <Button>Details</Button>

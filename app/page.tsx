@@ -1,12 +1,8 @@
-import DestinationCard from '@/components/card';
+import List from '@/components/list';
+import { getAllDestinations } from './services/destinations';
 
-export default function Home() {
-  return (
-    <section className='flex flex-col gap-6 my-8'>
-      <DestinationCard />
-      <DestinationCard />
-      <DestinationCard />
-      <DestinationCard />
-    </section>
-  );
+export default async function Home() {
+  const res = await getAllDestinations();
+
+  return <List data={res} />;
 }
