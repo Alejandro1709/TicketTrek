@@ -18,4 +18,62 @@ model Destination {
   image       String?
   address     String
   country     String  @default("Perú")
+  bus         Bus?    @relation(fields: [busId], references: [id])
+  busId       Int?
+}
+
+model Bus {
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  slug          String        @unique
+  image         String?
+  plate         String        @unique
+  make          String
+  soat          Boolean       @default(true)
+  technicalSpec Boolean       @default(true)
+  destinations  Destination[]
+  driver        Driver[]
+  company       Company?      @relation(fields: [companyId], references: [id])
+  companyId     String?
+}
+
+model Driver {
+  id            String   @id @default(cuid())
+  firstName     String
+  lastName      String
+  dni           String   @unique
+  email         String   @unique
+  address       String
+  gender        Gender
+  driverLicence Boolean  @default(true)
+  birthDate     DateTime
+  driverSince   DateTime
+  bus           Bus      @relation(fields: [busId], references: [id])
+  busId         Int
+  company       Company? @relation(fields: [companyId], references: [id])
+  companyId     String?
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  ruc         String   @unique
+  drivers     Driver[]
+  buses       Bus[]
+  locales     Local[]
+}
+
+model Local {
+  id        String   @id @default(cuid())
+  name      String
+  address   String
+  company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
