@@ -9,6 +9,7 @@ import {
 } from '../ui/card';
 import { Button } from '../ui/button';
 import type IData from '@/app/types/destination';
+import Link from 'next/link';
 
 function DestinationCard({ destination }: { destination: IData }) {
   return (
@@ -28,7 +29,9 @@ function DestinationCard({ destination }: { destination: IData }) {
         <CardTitle className='text-2xl'>{destination.name}</CardTitle>
       </CardContent>
       <CardFooter>
-        <Button>Details</Button>
+        <Button asChild>
+          <Link href={`/destinations/${destination.slug}`}>Details</Link>
+        </Button>
       </CardFooter>
     </Card>
   );
