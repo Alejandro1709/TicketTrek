@@ -6,7 +6,7 @@ import LoadingList from './loading';
 async function List({ data }: { data: IData[] }) {
   return (
     <Suspense fallback={<LoadingList />}>
-      <section className='flex flex-col gap-6 my-8'>
+      <section className='flex flex-col container gap-6 my-8 md:grid md:grid-cols-4'>
         {data.map((dest) => (
           <DestinationCard key={dest.id} destination={dest} />
         ))}
