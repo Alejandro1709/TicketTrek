@@ -28,7 +28,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          <main className='flex-1 mx-8 md:mx-96'>{children}</main>
+          <main className='flex-1 mx-8'>{children}</main>
         </ThemeProvider>
       </body>
     </html>
