@@ -4,11 +4,12 @@ import './globals.css';
 import { ThemeProvider } from '../components/theme-provider';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/navbar';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'TicketTrek',
+  title: 'Ticket Trek',
   description:
     'Es una emocionante startup dedicada a facilitar la tediosa tarea de seleccionar y reservar boletos de autobús de manera eficiente y conveniente. En un mercado donde la planificación de viajes en autobús puede ser desafiante y a menudo consume tiempo, BusTicketEase surge como una solución innovadora, ofreciendo un faro de confiabilidad y comodidad para los viajeros.',
 };
@@ -29,6 +30,7 @@ export default function RootLayout({
         >
           <Navbar />
           <main className='flex-1 mx-8'>{children}</main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

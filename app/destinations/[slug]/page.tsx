@@ -1,42 +1,41 @@
-import { Button } from '@/components/ui/button';
-import { IoShareOutline } from 'react-icons/io5';
 import { FaEdit } from 'react-icons/fa';
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import capitalize from '@/app/utils/capitalize';
+import Navigator from '@/components/destinations/navigator';
+import NavigatorItems from '@/components/destinations/navigator-items';
+import NavigatorItem from '@/components/destinations/navigator-item';
+import DialogCloseButton from '@/components/share-dialog';
 
 type DestinationProps = {
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export async function generateMetadata(
-  { params, searchParams }: DestinationProps,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: DestinationProps): Promise<Metadata> {
   const slug = params.slug;
 
   return {
-    title: `Ticket Trek | ${slug}`,
+    title: `Ticket Trek | ${capitalize(slug)}`,
   };
 }
 
-export default function DestinationPage() {
+export default function DestinationPage(props: { params: { slug: string } }) {
   return (
     <section className='flex flex-col gap-4'>
-      <div className='flex flex-row justify-between items-center mt-6'>
-        <Button variant='outline'>Back</Button>
-        <h1 className='text-3xl font-semibold'>Cuzco</h1>
-        <div className='flex flex-row gap-3 justify-center items-center'>
-          <Button variant='outline' size='icon'>
-            <IoShareOutline />
-            <span className='sr-only'>Share Link</span>
-          </Button>
-          <Button variant='outline' size='icon'>
-            <FaEdit />
-            <span className='sr-only'>Edit Destination</span>
-          </Button>
-        </div>
-      </div>
+      <Navigator title={capitalize(props.params.slug)} backUrl='/destinations'>
+        <NavigatorItems>
+          <DialogCloseButton resource={props.params.slug} />
+          <NavigatorItem
+            Icon={FaEdit}
+            sr='Edit Destination'
+            variant='outline'
+            size='icon'
+          />
+        </NavigatorItems>
+      </Navigator>
       <header className='flex flex-col gap-4'>
         <figure className='bg-slate-900 h-40 rounded-md mt-6'>IMG</figure>
         <p className='font-medium'>
