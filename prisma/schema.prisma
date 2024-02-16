@@ -11,15 +11,16 @@ datasource db {
 }
 
 model Destination {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique
-  slug        String  @unique
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  slug        String   @unique
   description String?
   image       String?
   address     String
-  country     String  @default("Perú")
-  bus         Bus?    @relation(fields: [busId], references: [id])
+  country     String   @default("Perú")
+  bus         Bus?     @relation(fields: [busId], references: [id])
   busId       Int?
+  tickets     Ticket[]
 }
 
 model Bus {
@@ -73,7 +74,58 @@ model Local {
   companyId String?
 }
 
+model Passenger {
+  id             String   @id @default(cuid())
+  firstName      String
+  lastName       String
+  dni            String   @unique
+  email          String   @unique
+  address        String
+  gender         Gender
+  birthDate      DateTime
+  passengerSince DateTime @default(now())
+  seats          Seat[]
+  ticket         Ticket?  @relation(fields: [ticketId], references: [id])
+  ticketId       String?
+}
+
+model Seat {
+  id          Int        @id @default(autoincrement())
+  code        String     @unique
+  available   Boolean    @default(true)
+  passenger   Passenger? @relation(fields: [passengerId], references: [id])
+  type        SeatType
+  passengerId String?
+  ticket      Ticket?    @relation(fields: [ticketId], references: [id])
+  ticketId    String?
+}
+
+model Ticket {
+  id            String      @id @default(cuid())
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  passengers    Passenger[]
+  seats         Seat[]
+  price         Float
+  departure     DateTime
+  arrival       DateTime
+  destinationId Int
+  trip          Trip[]
+}
+
+model Trip {
+  id               String @id @default(cuid())
+  init_ticket      Ticket @relation(fields: [ticket1Id], references: [id])
+  return_ticket    Ticket @relation(fields: [ticket2Id], references: [id])
+  total_price      Float
+  reservation_code String @default(cuid())
+}
+
 enum Gender {
   MALE
   FEMALE
+}
+
+enum SeatType {
+  WINDOW
+  AISLE
 }
