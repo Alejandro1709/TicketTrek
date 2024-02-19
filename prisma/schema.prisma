@@ -9,3 +9,123 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Destination {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  image       String?
+  address     String
+  country     String   @default("Perú")
+  bus         Bus?     @relation(fields: [busId], references: [id])
+  busId       Int?
+  ticket      Ticket[]
+}
+
+model Bus {
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  slug          String        @unique
+  image         String?
+  plate         String        @unique
+  make          String
+  soat          Boolean       @default(true)
+  technicalSpec Boolean       @default(true)
+  destinations  Destination[]
+  driver        Driver[]
+  company       Company?      @relation(fields: [companyId], references: [id])
+  companyId     String?
+}
+
+model Driver {
+  id            String   @id @default(cuid())
+  firstName     String
+  lastName      String
+  dni           String   @unique
+  email         String   @unique
+  address       String
+  gender        Gender
+  driverLicence Boolean  @default(true)
+  birthDate     DateTime
+  driverSince   DateTime
+  bus           Bus      @relation(fields: [busId], references: [id])
+  busId         Int
+  company       Company? @relation(fields: [companyId], references: [id])
+  companyId     String?
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  ruc         String   @unique
+  drivers     Driver[]
+  buses       Bus[]
+  locales     Local[]
+}
+
+model Local {
+  id        String   @id @default(cuid())
+  name      String
+  address   String
+  company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?
+}
+
+model Passenger {
+  id             String   @id @default(cuid())
+  firstName      String
+  lastName       String
+  dni            String   @unique
+  email          String   @unique
+  address        String
+  gender         Gender
+  birthDate      DateTime
+  passengerSince DateTime @default(now())
+  seat           Seat     @relation(fields: [seatId], references: [id])
+  tickets        Ticket[]
+  seatId         Int
+  trips          Trip[]
+}
+
+model Seat {
+  id          Int         @id @default(autoincrement())
+  code        String      @unique
+  available   Boolean     @default(true)
+  type        SeatType
+  passengerId String?
+  ticket      Ticket?     @relation(fields: [ticketId], references: [id])
+  ticketId    String?
+  passenger   Passenger[]
+}
+
+model Ticket {
+  id            String      @id @default(cuid())
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  passengers    Passenger[]
+  seats         Seat[]
+  price         Float
+  departure     DateTime
+  arrival       DateTime
+  destinationId Int
+}
+
+model Trip {
+  id               String     @id @unique @default(cuid())
+  total_price      Float
+  reservation_code String     @default(cuid())
+  passenger        Passenger? @relation(fields: [passengerId], references: [id])
+  passengerId      String?
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum SeatType {
+  WINDOW
+  AISLE
+}
