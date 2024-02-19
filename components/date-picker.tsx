@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -13,13 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-type DatePickerProps = {
-  currentDate: Date;
-};
-
-export default function DatePickerDemo({ currentDate }: DatePickerProps) {
-  const [date, setDate] = useState<Date>(currentDate);
-
+export default function DatePickerDemo({ date, onDateChange }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -38,7 +30,7 @@ export default function DatePickerDemo({ currentDate }: DatePickerProps) {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={(d) => onDateChange(d)}
           initialFocus
         />
       </PopoverContent>

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Accordion,
   AccordionContent,
@@ -5,15 +7,31 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import DatePickerDemo from "../date-picker";
+import { useDateStore } from "@/stores/date-store";
 
 export default function AccordionDemo() {
+  const selectedFromDate = useDateStore((state) => state.selectedFromDate);
+  const selectedToDate = useDateStore((state) => state.selectedToDate);
+  const changeSelectedFromDate = useDateStore(
+    (state) => state.changeSelectedFromDate
+  );
+  const changeSelectedtoDate = useDateStore(
+    (state) => state.changeSelectedToDate
+  );
+
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
         <AccordionTrigger>Fechas del viaje</AccordionTrigger>
         <AccordionContent className="flex flex-row gap-3">
-          <DatePickerDemo currentDate={new Date()} />
-          <DatePickerDemo currentDate={new Date()} />
+          <DatePickerDemo
+            date={selectedFromDate}
+            onDateChange={changeSelectedFromDate}
+          />
+          <DatePickerDemo
+            date={selectedToDate}
+            onDateChange={changeSelectedtoDate}
+          />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
