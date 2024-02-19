@@ -8,8 +8,23 @@ import {
 } from '@/components/ui/accordion';
 import DateRangePicker from '../range-picker';
 import { Button } from '../ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { PassengerList } from '../passenger';
+import { Card, CardContent, CardHeader } from '../ui/card';
+
+const seats = [
+  'A1',
+  'A2',
+  'A3',
+  'A4',
+  'A5',
+  'A6',
+  'B1',
+  'B2',
+  'B3',
+  'B4',
+  'B5',
+  'B6',
+];
 
 export default function AccordionDemo() {
   return (
@@ -34,8 +49,19 @@ export default function AccordionDemo() {
       <AccordionItem value='item-3'>
         <AccordionTrigger>Asientos</AccordionTrigger>
         <AccordionContent>
-          Yes. It&apos;s animated by default, but you can disable it if you
-          prefer.
+          <Card>
+            <CardHeader>Seats Selected:</CardHeader>
+            <CardContent className='grid grid-cols-2 gap-4 container justify-center mb-4 w-fit bg-secondary rounded-md overflow-hidden'>
+              {seats.map((s) => (
+                <span
+                  className='w-12 h-12 bg-slate-400 p-4 rounded-full select-none cursor-pointer font-medium'
+                  key={s}
+                >
+                  {s}
+                </span>
+              ))}
+            </CardContent>
+          </Card>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
