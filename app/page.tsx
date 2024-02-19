@@ -1,11 +1,11 @@
-import SearchResults from './components/SearchResults';
-import TravelForm from './components/TravelForm';
+import List from "@/components/list";
+import { getAllDestinations } from "./services/destinations";
+import type IData from "./types/destination";
 
-export default function Home() {
-  return (
-    <main className='flex min-h-screen flex-col p-4'>
-      <TravelForm />
-      <SearchResults />
-    </main>
-  );
+export default async function Home() {
+  const res: IData[] = await getAllDestinations();
+
+  console.log(res);
+
+  return <List data={res} />;
 }
