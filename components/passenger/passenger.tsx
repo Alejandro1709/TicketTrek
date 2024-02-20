@@ -15,8 +15,12 @@ function PassengerCard() {
           <CardDescription>Card Description</CardDescription>
         </div>
         <div className='flex flex-row gap-1.5 ml-auto'>
-          <Button variant='secondary'>Edit</Button>
-          <Button variant='destructive'>Delete</Button>
+          <Button variant='secondary' type='button'>
+            Edit
+          </Button>
+          <Button variant='destructive' type='button'>
+            Delete
+          </Button>
         </div>
       </CardHeader>
     </Card>
