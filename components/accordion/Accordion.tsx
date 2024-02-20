@@ -32,8 +32,7 @@ export default function AccordionDemo() {
       <AccordionItem value='item-1'>
         <AccordionTrigger>Fechas del viaje</AccordionTrigger>
         <AccordionContent className='flex flex-row gap-3'>
-          <DateRangePicker />
-          <Button className='w-full'>Apply</Button>
+          <DateRangePicker className='w-full' />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value='item-2'>
