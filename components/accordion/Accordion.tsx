@@ -28,6 +28,10 @@ import { PassengerList } from '../passenger';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { useState } from 'react';
+import { ICreatePassenger, IPassenger } from '@/app/types/passenger';
+import { format } from 'date-fns';
+import { usePassengerStore } from '@/stores/passenger-store';
 
 const seats = [
   'A1',
@@ -45,6 +49,39 @@ const seats = [
 ];
 
 export default function AccordionDemo() {
+  const [formData, setFormData] = useState<ICreatePassenger>({
+    firstName: 'John',
+    lastName: 'Cena',
+    dni: '348695492',
+    email: 'john.cena@mail.com',
+    address: 'Av. You Cant See Me',
+    gender: 'male',
+    birthDate: new Date('04-23-1977'),
+  });
+
+  const { firstName, lastName, dni, email, address, gender, birthDate } =
+    formData;
+
+  const passengers = usePassengerStore((state) => state.passengers);
+  const setPassengers = usePassengerStore((state) => state.setPassengers);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleAddPassenger = () => {
+    const newPassenger: IPassenger = {
+      id: '',
+      ...formData,
+      passengerSince: new Date(),
+    };
+
+    setPassengers([...passengers, newPassenger]);
+  };
+
   return (
     <Accordion type='single' collapsible className='w-full'>
       <AccordionItem value='item-1'>
@@ -65,37 +102,53 @@ export default function AccordionDemo() {
             <DialogContent className='sm:max-w-[425px]'>
               <DialogHeader>
                 <DialogTitle>Añadir Pasajero</DialogTitle>
-                <DialogDescription>
-                  Make changes to your profile here. Click save when you're
-                  done.
-                </DialogDescription>
               </DialogHeader>
               <div className='grid gap-4 py-4'>
                 <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='name' className='text-right'>
                     Nombre
                   </Label>
-                  <Input id='name' value='Pedro' className='col-span-3' />
+                  <Input
+                    name='firstName'
+                    id='name'
+                    value={firstName}
+                    onChange={handleChange}
+                    className='col-span-3'
+                  />
                 </div>
                 <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='lastName' className='text-right'>
                     Apellido
                   </Label>
-                  <Input id='lastName' value='Duarte' className='col-span-3' />
+                  <Input
+                    name='lastName'
+                    id='lastName'
+                    value={lastName}
+                    onChange={handleChange}
+                    className='col-span-3'
+                  />
                 </div>
                 <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='dni' className='text-right'>
                     DNI
                   </Label>
-                  <Input id='dni' value='80347367' className='col-span-3' />
+                  <Input
+                    name='dni'
+                    id='dni'
+                    value={dni}
+                    onChange={handleChange}
+                    className='col-span-3'
+                  />
                 </div>
                 <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='email' className='text-right'>
                     Email
                   </Label>
                   <Input
+                    name='email'
                     id='email'
-                    value='pedro.d@gmail.com'
+                    value={email}
+                    onChange={handleChange}
                     className='col-span-3'
                   />
                 </div>
@@ -104,8 +157,10 @@ export default function AccordionDemo() {
                     Dirección
                   </Label>
                   <Input
+                    name='address'
                     id='address'
-                    value='Av. No Seas Sapo 420'
+                    value={address}
+                    onChange={handleChange}
                     className='col-span-3'
                   />
                 </div>
@@ -124,18 +179,20 @@ export default function AccordionDemo() {
                   </Select>
                 </div>
                 <div className='grid grid-cols-4 items-center gap-4'>
-                  <Label htmlFor='address' className='text-right'>
+                  <Label htmlFor='birthDate' className='text-right'>
                     Fecha. Nac
                   </Label>
                   <Input
-                    id='address'
-                    value='Av. No Seas Sapo 420'
+                    name='birthDate'
+                    id='birthDate'
+                    value={format(birthDate || new Date(), "do 'de' MMMM yyyy")}
+                    onChange={handleChange}
                     className='col-span-3'
                   />
                 </div>
               </div>
               <DialogFooter>
-                <Button type='submit'>Añadir</Button>
+                <Button onClick={handleAddPassenger}>Añadir</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

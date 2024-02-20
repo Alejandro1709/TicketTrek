@@ -48,7 +48,7 @@ export default async function DestinationPage(props: {
         <figure className='bg-slate-900 h-40 rounded-md mt-6'>IMG</figure>
         <p className='font-medium'>{destination.description}</p>
       </header>
-      <div>
+      <>
         <Tabs defaultValue='ida'>
           <TabsList className='grid w-full grid-cols-2'>
             <TabsTrigger value='ida'>Ida</TabsTrigger>
@@ -61,7 +61,7 @@ export default async function DestinationPage(props: {
             <p>Vuelta</p>
           </TabsContent>
         </Tabs>
-      </div>
+      </>
     </section>
   );
 }
